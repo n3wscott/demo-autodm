@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels: &labels
+      app: helloworld
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+        - name: helloworld
+          image: ko://github.com/n3wscott/demo-autodm
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: helloworld
+spec:
+  selector:
+    app: helloworld
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
